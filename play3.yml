@@ -1,0 +1,20 @@
+---
+- hosts: ws
+  become: true
+  vars_files:
+    - vars.yml
+    
+  tasks:
+    - name: Download the zip file from GitHub
+      get_url:
+        url: "{{ LINK_URL }}"
+        dest: "{{ DESTINATION }}"
+        mode: '0644'
+
+    - name: Delete main.zip in /tmp
+      file:
+        path: "{{ DESTINATION }}"
+        state: absent
+      
+
+    

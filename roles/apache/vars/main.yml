@@ -1,0 +1,17 @@
+---
+apache_pkg: httpd
+
+pkg_state:  present
+
+service_name: httpd
+
+service_state: started
+
+file_path: /var/www/html/index.html
+
+file_state: file
+
+file_mode: 0754
+
+file_content: <h1> This is ansible webserver and we're making progress. </h1>
+

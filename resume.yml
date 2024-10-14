@@ -1,0 +1,46 @@
+
+---
+- hosts: ws
+  become: True
+  #become_user: root
+  ignore_errors: 0
+  gather_facts: yes
+
+  tasks:
+    - name: Install required packages
+      package:
+         state: present
+         name: "{{ item }}"
+      loop:
+        - unzip
+        - wget
+        - httpd
+
+    - name: Download artifact
+      get_url:
+         url: https://github.com/utrains/static-resume/archive/refs/heads/main.zip
+         dest: /tmp/main.zip
+
+    - name: Unarchive a zip file in the /tmp
+      unarchive:
+        src: /tmp/main.zip
+        dest: /tmp
+        remote_src: yes
+    
+    - name: Copy directory from /tmp to /var/www/html
+      copy:
+        src: /tmp/static-resume-main/
+        dest: /var/www/html
+        #recursive: yes
+        owner: apache
+        group: apache
+        mode: '0755'
+        remote_src: yes
+
+    - name: Start httpd Daemon
+      systemd:
+         name: httpd
+         state: started
+         enabled: yes
+
+

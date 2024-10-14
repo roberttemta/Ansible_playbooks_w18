@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: True
+  #become_user: root
+  ignore_errors: 1
+  gather_facts: yes
+  vars:
+   f_name: John
+
+  tasks: 
+    - name: Debug module
+      debug:
+         var: f_name
+
+    - name: Check server uptime
+      command: uptime
+      register: uptime_output
+
+    - name: Display output variable
+      debug:
+       var: uptime_output

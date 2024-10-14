@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: True
+  #become_user: root
+  ignore_errors: 1
+  gather_facts: yes
+- name: Download file from GitHub to /tmp
+  
+  tasks:
+    # - name: Ensure /tmp directory exists
+    #   file:
+    #     path: /tmp
+    #     state: directory
+    #     mode: '0755'
+
+    - name: Download the zip file from GitHub
+      get_url:
+        url: https://github.com/kserge2001/resume/archive/refs/heads/main.zip
+        dest: /tmp/main.zip
+        mode: '0644'
+
+    - name: Verify that the file was downloaded
+      stat:
+        path: /tmp/main.zip
+      register: download_check
+
+    # - name: Display a message if the file was successfully downloaded
+    #   debug:
+    #     msg: "File downloaded to /tmp/main.zip"
+    #   when: download_check.stat.exists

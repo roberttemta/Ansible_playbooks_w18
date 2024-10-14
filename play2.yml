@@ -1,0 +1,38 @@
+---
+- hosts: ws
+  become: True
+  #become_user: root
+  ignore_errors: 1
+  gather_facts: yes
+  vars:
+    package_name: httpd
+
+  tasks:
+    - name: Install package
+      yum:
+        name: "{{ package_name }}"
+        state: present
+
+    - name: Create group
+      group:
+        name: "{{ item }}"
+        state: present
+      with_items:
+           - cloud
+           - Automation
+           - devops
+           - linuxsa
+           - security
+
+
+    # - name: Create groups
+    #   group:
+    #     name: "{{ item }}"
+    #     state: present
+    #   loop:
+    #        - cloud
+    #        - Automation
+    #        - devops
+    #        - linuxsa
+    #        - security
+        

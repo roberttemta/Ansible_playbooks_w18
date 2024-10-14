@@ -1,0 +1,6 @@
+---
+- hosts: ws
+  become: yes
+  roles:
+    - apache
+    - robert.java
